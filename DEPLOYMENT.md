@@ -1,235 +1,260 @@
-# 🚀 Hướng Dẫn Deploy
+# 🚀 Hướng Dẫn Deploy Production
 
-## Deploy Backend
+Hướng dẫn deploy hệ thống lên các nền tảng hosting miễn phí và trả phí.
 
-### Option 1: Railway (Khuyến nghị)
+## 📋 Tổng Quan
 
-1. Tạo tài khoản tại https://railway.app
-2. Tạo PostgreSQL database
-3. Deploy backend:
-   ```bash
-   # Trong thư mục backend
-   railway login
-   railway init
-   railway up
+Hệ thống gồm 2 phần cần deploy:
+1. **Backend** (Node.js + PostgreSQL)
+2. **Frontend** (React Static Site)
+
+## 🆓 Deploy Miễn Phí
+
+### Backend: Render.com
+
+**Bước 1: Tạo Database**
+1. Đăng ký tại [Render.com](https://render.com)
+2. Dashboard → New → PostgreSQL
+3. Chọn Free plan
+4. Lưu lại `Internal Database URL`
+
+**Bước 2: Deploy Backend**
+1. Dashboard → New → Web Service
+2. Connect GitHub repository
+3. Cấu hình:
+   - **Name:** dental-backend
+   - **Root Directory:** `backend`
+   - **Environment:** Node
+   - **Build Command:** `npm install && npx prisma generate && npx prisma migrate deploy`
+   - **Start Command:** `npm start`
+   - **Plan:** Free
+
+4. Environment Variables:
    ```
-4. Set environment variables trên Railway dashboard
-5. Chạy migration:
-   ```bash
-   railway run npx prisma migrate deploy
-   railway run npx prisma db seed
-   ```
-
-### Option 2: Heroku
-
-1. Tạo app:
-   ```bash
-   heroku create dental-booking-api
-   heroku addons:create heroku-postgresql:mini
-   ```
-
-2. Deploy:
-   ```bash
-   cd backend
-   git init
-   heroku git:remote -a dental-booking-api
-   git add .
-   git commit -m "Initial commit"
-   git push heroku main
-   ```
-
-3. Setup:
-   ```bash
-   heroku config:set JWT_SECRET=your-secret-key
-   heroku run npx prisma migrate deploy
-   heroku run npx prisma db seed
+   DATABASE_URL=<Internal Database URL từ bước 1>
+   JWT_SECRET=<random-secret-key>
+   JWT_EXPIRES_IN=7d
+   NODE_ENV=production
+   FRONTEND_URL=<frontend-url-sau-khi-deploy>
    ```
 
-### Option 3: VPS (DigitalOcean, AWS, etc.)
+5. Deploy và đợi hoàn thành
 
-1. Setup server với Node.js + PostgreSQL
-2. Clone code:
-   ```bash
-   git clone <repo-url>
-   cd backend
-   npm install
-   ```
+**Bước 3: Seed Database**
+```bash
+# Chạy từ local
+DATABASE_URL="<External Database URL>" npx prisma db seed
+```
 
-3. Setup environment:
-   ```bash
-   cp .env.example .env
-   # Sửa DATABASE_URL và các biến khác
-   ```
+### Frontend: Vercel
 
-4. Run migration:
-   ```bash
-   npx prisma migrate deploy
-   npx prisma db seed
-   ```
+**Bước 1: Deploy**
+1. Đăng ký tại [Vercel.com](https://vercel.com)
+2. Import GitHub repository
+3. Cấu hình:
+   - **Framework Preset:** Create React App
+   - **Root Directory:** `frontend`
+   - **Build Command:** `npm run build`
+   - **Output Directory:** `build`
 
-5. Start với PM2:
-   ```bash
-   npm install -g pm2
-   npm run build
-   pm2 start dist/server.js --name dental-api
-   pm2 startup
-   pm2 save
-   ```
+**Bước 2: Environment Variables**
+```
+REACT_APP_API_URL=<backend-url-từ-render>/api
+DISABLE_ESLINT_PLUGIN=true
+CI=false
+```
 
-6. Setup Nginx reverse proxy:
-   ```nginx
-   server {
-       listen 80;
-       server_name api.yourdomain.com;
+**Bước 3: Deploy**
+- Click Deploy
+- Đợi build hoàn thành
 
-       location / {
-           proxy_pass http://localhost:5000;
-           proxy_http_version 1.1;
-           proxy_set_header Upgrade $http_upgrade;
-           proxy_set_header Connection 'upgrade';
-           proxy_set_header Host $host;
-           proxy_cache_bypass $http_upgrade;
-       }
-   }
-   ```
+**Bước 4: Cập nhật CORS**
+- Quay lại Render backend
+- Cập nhật `FRONTEND_URL` với URL Vercel vừa tạo
+- Redeploy backend
 
-## Deploy Frontend
+### Các Nền Tảng Khác
 
-### Option 1: Vercel (Khuyến nghị)
+#### Backend Alternatives
+- **Railway.app** - Tương tự Render
+- **Fly.io** - Có free tier
+- **Heroku** - Trả phí nhưng ổn định
 
-1. Tạo tài khoản tại https://vercel.com
-2. Import project từ Git
-3. Set build settings:
-   - Framework: Create React App
-   - Root Directory: frontend
-   - Build Command: `npm run build`
-   - Output Directory: `build`
-4. Set environment variables:
-   - `REACT_APP_API_URL`: URL backend của bạn
-5. Deploy!
+#### Frontend Alternatives
+- **Netlify** - Tương tự Vercel
+- **Cloudflare Pages** - Nhanh, miễn phí
+- **GitHub Pages** - Miễn phí cho static site
 
-### Option 2: Netlify
+## 💰 Deploy Trả Phí (Khuyến Nghị)
 
-1. Tạo tài khoản tại https://netlify.com
-2. Drag & drop thư mục `frontend/build` sau khi build
-3. Hoặc connect với Git repository
-4. Set environment variables trong Netlify dashboard
+### VPS (DigitalOcean, Linode, Vultr)
 
-### Option 3: VPS
+**Yêu cầu:**
+- Ubuntu 20.04+
+- 2GB RAM
+- 1 CPU
+- 25GB Storage
 
-1. Build frontend:
-   ```bash
-   cd frontend
-   npm run build
-   ```
-
-2. Copy build folder lên server
-3. Setup Nginx:
-   ```nginx
-   server {
-       listen 80;
-       server_name yourdomain.com;
-       root /var/www/dental-booking/build;
-       index index.html;
-
-       location / {
-           try_files $uri $uri/ /index.html;
-       }
-   }
-   ```
-
-## Database Migration
-
-Khi có thay đổi schema:
+**Cài đặt:**
 
 ```bash
-# Development
-npx prisma migrate dev --name description
+# 1. Cài Node.js
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
 
-# Production
+# 2. Cài PostgreSQL
+sudo apt install postgresql postgresql-contrib
+
+# 3. Cài Nginx
+sudo apt install nginx
+
+# 4. Clone code
+git clone <your-repo>
+cd dental-booking
+
+# 5. Setup Backend
+cd backend
+npm install
 npx prisma migrate deploy
+npx prisma db seed
+npm run build
+
+# 6. Setup PM2
+sudo npm install -g pm2
+pm2 start dist/server.js --name dental-backend
+pm2 startup
+pm2 save
+
+# 7. Setup Frontend
+cd ../frontend
+npm install
+npm run build
+
+# 8. Cấu hình Nginx
+sudo nano /etc/nginx/sites-available/dental
 ```
 
-## Environment Variables
+**Nginx Config:**
+```nginx
+server {
+    listen 80;
+    server_name yourdomain.com;
 
-### Backend (.env)
-```
-DATABASE_URL="postgresql://..."
-JWT_SECRET="your-secret-key"
-JWT_EXPIRES_IN="7d"
-PORT=5000
-NODE_ENV=production
-FRONTEND_URL="https://yourdomain.com"
-```
+    # Frontend
+    location / {
+        root /path/to/frontend/build;
+        try_files $uri /index.html;
+    }
 
-### Frontend (.env)
+    # Backend API
+    location /api {
+        proxy_pass http://localhost:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
 ```
-REACT_APP_API_URL=https://api.yourdomain.com/api
-```
-
-## SSL Certificate
-
-Sử dụng Let's Encrypt (miễn phí):
 
 ```bash
+# Enable site
+sudo ln -s /etc/nginx/sites-available/dental /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+
+# SSL với Let's Encrypt
 sudo apt install certbot python3-certbot-nginx
-sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
+sudo certbot --nginx -d yourdomain.com
 ```
 
-## Monitoring & Logs
+## 🔒 Bảo Mật Production
 
-### Backend logs với PM2:
-```bash
-pm2 logs dental-api
-pm2 monit
+### Backend
+1. Đổi `JWT_SECRET` thành chuỗi ngẫu nhiên mạnh
+2. Đổi mật khẩu admin mặc định
+3. Bật HTTPS
+4. Giới hạn rate limiting
+5. Cấu hình CORS chính xác
+
+### Database
+1. Sử dụng connection pooling
+2. Backup định kỳ
+3. Không expose port ra ngoài
+4. Sử dụng SSL connection
+
+### Frontend
+1. Không hardcode API keys
+2. Sử dụng environment variables
+3. Enable HTTPS
+4. Minify và optimize assets
+
+## 📊 Monitoring
+
+### Free Tools
+- **Uptime Robot** - Monitor uptime
+- **Sentry** - Error tracking
+- **Google Analytics** - User analytics
+
+### Paid Tools
+- **New Relic** - Full monitoring
+- **DataDog** - Infrastructure monitoring
+- **LogRocket** - Session replay
+
+## 🔄 CI/CD
+
+### GitHub Actions
+
+Tạo file `.github/workflows/deploy.yml`:
+
+```yaml
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy to Render
+        run: curl ${{ secrets.RENDER_DEPLOY_HOOK }}
+
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy to Vercel
+        run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
 ```
 
-### Database backup:
-```bash
-# PostgreSQL
-pg_dump -U username dbname > backup.sql
+## 🐛 Troubleshooting
 
-# Restore
-psql -U username dbname < backup.sql
-```
+### Backend không start
+- Kiểm tra logs: `pm2 logs dental-backend`
+- Kiểm tra database connection
+- Kiểm tra environment variables
 
-## Performance Tips
-
-1. **Enable gzip compression** trong Nginx
-2. **CDN** cho static assets (Cloudflare)
-3. **Database indexing** cho các query thường dùng
-4. **Caching** với Redis (optional)
-5. **Rate limiting** để tránh abuse
-
-## Security Checklist
-
-- ✅ HTTPS enabled
-- ✅ Environment variables secured
-- ✅ CORS configured properly
-- ✅ SQL injection prevention (Prisma ORM)
-- ✅ XSS protection
-- ✅ Rate limiting
-- ✅ Input validation
-- ✅ JWT token expiration
-- ✅ Password hashing (bcrypt)
-
-## Troubleshooting
-
-### Backend không kết nối được database
-- Kiểm tra DATABASE_URL
-- Kiểm tra firewall/security group
-- Verify PostgreSQL đang chạy
-
-### Frontend không gọi được API
+### Frontend không load API
 - Kiểm tra CORS settings
-- Verify REACT_APP_API_URL
-- Check network tab trong browser
+- Kiểm tra `REACT_APP_API_URL`
+- Kiểm tra network tab trong browser
 
-### Migration failed
-- Backup database trước
-- Kiểm tra schema conflicts
-- Reset database nếu cần (development only)
+### Database migration failed
+- Chạy manual: `npx prisma migrate deploy`
+- Kiểm tra DATABASE_URL
+- Kiểm tra database có tồn tại không
 
-## Support
+## 📞 Cần Hỗ Trợ?
 
-Nếu gặp vấn đề, tạo issue trên GitHub hoặc liên hệ support.
+Nếu gặp vấn đề khi deploy, liên hệ support với thông tin:
+- Platform đang dùng (Render, Vercel, VPS, etc.)
+- Error logs
+- Screenshots
+
+---
+
+**Chúc bạn deploy thành công! 🎉**

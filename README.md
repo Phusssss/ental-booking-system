@@ -1,42 +1,31 @@
-# 🦷 Hệ Thống Đặt Lịch & Quản Lý Phòng Khám Nha Khoa
+# 🦷 Dental Booking System - Hệ Thống Đặt Lịch Nha Khoa
 
-Website đặt lịch nha khoa hiện đại với landing page đẹp mắt và hệ thống quản lý hoàn chỉnh.
+Hệ thống đặt lịch khám nha khoa hoàn chỉnh với giao diện hiện đại, quản trị viên mạnh mẽ và tích hợp thanh toán.
 
-## 🎯 Tính Năng
+## ✨ Tính Năng Chính
 
-### Landing Page (Public)
-- ✨ UI/UX hiện đại với Framer Motion
-- 📱 Responsive mobile-first
-- 🎨 Hero section với gradient đẹp mắt
-- 💼 Giới thiệu dịch vụ với card animation
-- 👨‍⚕️ Đội ngũ bác sĩ
-- ⭐ Feedback khách hàng
-- 📅 Form đặt lịch nhanh
+### 🎯 Dành cho Khách Hàng
+- ✅ Đặt lịch khám online dễ dàng
+- ✅ Xem danh sách bác sĩ và dịch vụ
+- ✅ Chọn khung giờ phù hợp
+- ✅ Giao diện responsive, thân thiện
 
-### Đặt Lịch (Public)
-- Chọn dịch vụ, ngày giờ khám
-- Kiểm tra trùng lịch tự động
-- Validate form realtime
-- Lưu thông tin khách hàng
+### 👨‍💼 Dành cho Quản Trị Viên
+- ✅ Dashboard thống kê tổng quan
+- ✅ Quản lý lịch hẹn (xem, sửa, xóa, cập nhật trạng thái)
+- ✅ Quản lý bác sĩ (thêm, sửa, xóa, bật/tắt)
+- ✅ Quản lý dịch vụ (thêm, sửa, xóa, bật/tắt)
+- ✅ Xác thực JWT bảo mật
 
-### Admin Panel
-- 🔐 Authentication với JWT
-- 📊 Dashboard tổng quan
-- 📋 Quản lý lịch hẹn (CRUD, xác nhận, hủy)
-- 💉 Quản lý dịch vụ
-- 👨‍⚕️ Quản lý bác sĩ
-- 🔍 Filter và search
+## 🛠️ Công Nghệ Sử Dụng
 
-## 🛠️ Stack Công Nghệ
-
-**Frontend:**
+### Frontend
 - React 18 + TypeScript
-- TailwindCSS
-- Framer Motion
-- React Router v6
+- Tailwind CSS
 - Axios
+- React Router DOM
 
-**Backend:**
+### Backend
 - Node.js + Express
 - TypeScript
 - Prisma ORM
@@ -44,160 +33,193 @@ Website đặt lịch nha khoa hiện đại với landing page đẹp mắt và
 - JWT Authentication
 - bcrypt
 
-## 📦 Cài Đặt
+### Android (Optional)
+- Kotlin
+- Android SDK
 
-### Yêu Cầu
-- Node.js >= 18
-- PostgreSQL >= 14
-- npm hoặc yarn
+## 📋 Yêu Cầu Hệ Thống
 
-### 1. Clone & Install
+- Node.js 16+ và npm
+- PostgreSQL 12+
+- Git
+
+## � Hướng Dẫn Cài Đặt
+
+### 1️⃣ Clone Project
 
 ```bash
-# Clone project
-git clone <repo-url>
-cd dental-booking-system
+git clone <repository-url>
+cd dental-booking
+```
 
-# Install backend
+### 2️⃣ Cài Đặt Backend
+
+```bash
 cd backend
-npm install
-
-# Install frontend
-cd ../frontend
 npm install
 ```
 
-### 2. Setup Database
+**Cấu hình Database:**
+- Tạo database PostgreSQL mới
+- Copy file `.env.example` thành `.env`
+- Cập nhật `DATABASE_URL` trong file `.env`:
 
-**Option A: Database Online (Khuyến nghị)**
+```env
+DATABASE_URL="postgresql://username:password@localhost:5432/dental_db"
+JWT_SECRET="your-secret-key-here"
+```
 
-Xem hướng dẫn chi tiết trong file `DATABASE_SETUP.md`
-
-Nhanh nhất - dùng Neon (miễn phí):
-1. Truy cập https://neon.tech
-2. Tạo project mới
-3. Copy connection string
-4. Paste vào `.env`
+**Chạy Migration và Seed:**
 
 ```bash
-cd backend
-cp .env.example .env
-# Paste DATABASE_URL từ Neon vào file .env
-
 npx prisma migrate dev
 npx prisma db seed
 ```
 
-**Option B: PostgreSQL Local**
+**Khởi động Backend:**
 
 ```bash
-# Cài PostgreSQL trên máy
-# Windows: https://www.postgresql.org/download/windows/
-# Mac: brew install postgresql
-
-cd backend
-cp .env.example .env
-# Sửa DATABASE_URL trong .env
-
-npx prisma migrate dev
-npx prisma db seed
-```
-
-### 3. Chạy Ứng Dụng
-
-```bash
-# Terminal 1 - Backend (port 5000)
-cd backend
 npm run dev
+```
 
-# Terminal 2 - Frontend (port 3000)
+Backend sẽ chạy tại: `http://localhost:5000`
+
+### 3️⃣ Cài Đặt Frontend
+
+```bash
 cd frontend
+npm install
+```
+
+**Cấu hình:**
+- File `.env.local` đã được cấu hình sẵn cho local development
+- Không cần thay đổi gì nếu backend chạy ở port 5000
+
+**Khởi động Frontend:**
+
+```bash
 npm start
 ```
 
-Truy cập:
-- **Landing Page:** http://localhost:3000
-- **Admin Panel:** http://localhost:3000/admin
-- **API:** http://localhost:5000/api
+Frontend sẽ chạy tại: `http://localhost:3000`
 
-### 4. Tài Khoản Demo
+## 👤 Tài Khoản Admin Mặc Định
 
-**Admin:**
-- Email: `admin@dental.com`
-- Password: `admin123`
+Sau khi seed database, sử dụng tài khoản sau để đăng nhập:
+
+```
+Email: admin@dental.com
+Password: admin123
+```
+
+**⚠️ LƯU Ý:** Đổi mật khẩu ngay sau lần đăng nhập đầu tiên!
 
 ## 📁 Cấu Trúc Thư Mục
 
 ```
-dental-booking-system/
-├── backend/
+dental-booking/
+├── backend/              # Node.js Backend
 │   ├── src/
-│   │   ├── controllers/     # API controllers
-│   │   ├── middleware/      # Auth, validation
-│   │   ├── routes/          # API routes
-│   │   ├── types/           # TypeScript types
-│   │   └── server.ts        # Entry point
+│   │   ├── controllers/  # API Controllers
+│   │   ├── middleware/   # Auth Middleware
+│   │   ├── routes/       # API Routes
+│   │   └── server.ts     # Entry Point
 │   ├── prisma/
-│   │   ├── schema.prisma    # Database schema
-│   │   └── seed.ts          # Seed data
-│   ├── .env.example
+│   │   ├── schema.prisma # Database Schema
+│   │   └── seed.ts       # Seed Data
 │   └── package.json
 │
-└── frontend/
-    ├── src/
-    │   ├── components/      # Reusable components
-    │   ├── pages/           # Page components
-    │   │   ├── Landing/     # Landing page sections
-    │   │   ├── Booking/     # Booking flow
-    │   │   └── Admin/       # Admin panel
-    │   ├── services/        # API calls
-    │   ├── hooks/           # Custom hooks
-    │   ├── types/           # TypeScript types
-    │   └── App.tsx
-    └── package.json
+├── frontend/             # React Frontend
+│   ├── src/
+│   │   ├── components/   # Reusable Components
+│   │   ├── pages/        # Page Components
+│   │   ├── services/     # API Services
+│   │   └── types/        # TypeScript Types
+│   └── package.json
+│
+└── app/                  # Android App (Optional)
 ```
 
-## 🗄️ Database Schema
+## 🌐 Deploy Lên Production
 
-### Tables
-- **users** - Admin accounts
-- **doctors** - Bác sĩ
-- **services** - Dịch vụ nha khoa
-- **appointments** - Lịch hẹn
-- **time_slots** - Khung giờ làm việc
+### Backend (Render.com)
+1. Tạo tài khoản tại [Render.com](https://render.com)
+2. Tạo PostgreSQL Database mới
+3. Tạo Web Service mới, chọn repository
+4. Cấu hình:
+   - Build Command: `cd backend && npm install && npx prisma generate`
+   - Start Command: `cd backend && npm start`
+   - Environment Variables: Thêm `DATABASE_URL`, `JWT_SECRET`, `FRONTEND_URL`
 
-## 🚀 Hướng Mở Rộng
+### Frontend (Vercel)
+1. Tạo tài khoản tại [Vercel.com](https://vercel.com)
+2. Import repository
+3. Cấu hình:
+   - Root Directory: `frontend`
+   - Environment Variables: `REACT_APP_API_URL=<backend-url>`
+4. Deploy
 
-### Tính năng có thể thêm:
-1. **Thanh toán online**
-   - Tích hợp VNPay, MoMo, ZaloPay
-   - Đặt cọc trước
+Chi tiết xem file `DEPLOYMENT_FREE.md`
 
-2. **Thông báo tự động**
-   - SMS qua Twilio/SMSAPI
-   - Zalo OA
-   - Email reminder
+## � API Documentation
 
-3. **SaaS hóa**
-   - Multi-tenant architecture
-   - Subscription plans
-   - Custom domain cho từng phòng khám
+### Public Endpoints
+- `GET /api/services` - Lấy danh sách dịch vụ
+- `GET /api/doctors` - Lấy danh sách bác sĩ
+- `GET /api/time-slots` - Lấy khung giờ khám
+- `POST /api/appointments` - Đặt lịch hẹn
 
-4. **Tính năng nâng cao**
-   - Lịch sử khám bệnh
-   - Hồ sơ bệnh án điện tử
-   - Upload hình ảnh X-quang
-   - Video call tư vấn
-   - Báo cáo thống kê chi tiết
+### Admin Endpoints (Yêu cầu JWT Token)
+- `POST /api/auth/login` - Đăng nhập admin
+- `GET /api/admin/dashboard` - Thống kê dashboard
+- `GET /api/admin/appointments` - Quản lý lịch hẹn
+- `POST /api/admin/doctors` - Thêm bác sĩ
+- `POST /api/admin/services` - Thêm dịch vụ
 
-5. **Mobile App**
-   - React Native
-   - Push notification
+## 🔧 Scripts Hữu Ích
 
-## 📝 License
+### Backend
+```bash
+npm run dev          # Chạy development mode
+npm start            # Chạy production mode
+npm run build        # Build TypeScript
+npx prisma studio    # Mở Prisma Studio (GUI Database)
+npx prisma migrate dev  # Tạo migration mới
+```
 
-MIT License - Tự do sử dụng cho mục đích thương mại
+### Frontend
+```bash
+npm start            # Chạy development mode
+npm run build        # Build production
+npm test             # Chạy tests
+```
 
-## 💡 Support
+## 🐛 Troubleshooting
 
-Để được hỗ trợ, vui lòng tạo issue hoặc liên hệ qua email.
+### Lỗi kết nối Database
+- Kiểm tra PostgreSQL đã chạy chưa
+- Kiểm tra `DATABASE_URL` trong `.env` đúng chưa
+- Chạy lại migration: `npx prisma migrate reset`
+
+### Lỗi CORS
+- Kiểm tra `FRONTEND_URL` trong backend `.env`
+- Kiểm tra `REACT_APP_API_URL` trong frontend `.env.local`
+
+### Port đã được sử dụng
+- Backend: Đổi `PORT` trong `.env`
+- Frontend: Chạy `PORT=3001 npm start`
+
+## 📞 Hỗ Trợ
+
+Nếu gặp vấn đề, vui lòng:
+1. Kiểm tra file `QUICK_START.md` để xem hướng dẫn nhanh
+2. Xem file `DATABASE_SETUP.md` cho vấn đề về database
+3. Xem file `DEPLOYMENT_FREE.md` cho vấn đề deploy
+
+## 📄 License
+
+Sản phẩm này được bán với giấy phép sử dụng thương mại. Vui lòng không chia sẻ source code.
+
+---
+
+**Made with ❤️ for Dental Clinics**
