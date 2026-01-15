@@ -1,0 +1,104 @@
+// Prisma Schema - Dental Booking System
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Bảng User - Tài khoản admin/staff
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  fullName  String
+  role      String   @default("admin") // admin, staff
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+// Bảng Doctor - Bác sĩ
+model Doctor {
+  id           Int      @id @default(autoincrement())
+  fullName     String
+  specialty    String   // Chuyên môn: Niềng răng, Implant, Tổng quát...
+  experience   Int      // Số năm kinh nghiệm
+  avatar       String?  // URL ảnh
+  description  String?  @db.Text
+  rating       Float    @default(5.0)
+  isActive     Boolean  @default(true)
+  workSchedule Json?    // Lịch làm việc: {"mon": ["9:00-12:00", "14:00-17:00"], ...}
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  appointments Appointment[]
+
+  @@map("doctors")
+}
+
+// Bảng Service - Dịch vụ nha khoa
+model Service {
+  id          Int      @id @default(autoincrement())
+  name        String   // Tên dịch vụ
+  description String?  @db.Text
+  price       Int      // Giá (VNĐ)
+  duration    Int      // Thời gian khám (phút)
+  icon        String?  // Icon name hoặc URL (deprecated)
+  imageUrl    String?  // URL hình ảnh dịch vụ
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  appointments Appointment[]
+
+  @@map("services")
+}
+
+// Bảng Appointment - Lịch hẹn
+model Appointment {
+  id          Int      @id @default(autoincrement())
+  
+  // Thông tin khách hàng
+  customerName  String
+  customerPhone String
+  customerEmail String?
+  notes         String?  @db.Text
+  
+  // Thông tin lịch hẹn
+  appointmentDate DateTime // Ngày khám
+  appointmentTime String   // Giờ khám: "09:00", "14:30"
+  
+  // Quan hệ
+  serviceId Int
+  service   Service @relation(fields: [serviceId], references: [id])
+  
+  doctorId  Int?
+  doctor    Doctor? @relation(fields: [doctorId], references: [id])
+  
+  // Trạng thái
+  status    String   @default("pending") // pending, confirmed, completed, cancelled
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("appointments")
+  @@index([appointmentDate, appointmentTime])
+  @@index([status])
+}
+
+// Bảng TimeSlot - Khung giờ làm việc
+model TimeSlot {
+  id        Int      @id @default(autoincrement())
+  time      String   // "09:00", "09:30", "10:00"...
+  isActive  Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@map("time_slots")
+  @@unique([time])
+}
