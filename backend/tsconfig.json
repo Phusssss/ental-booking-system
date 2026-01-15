@@ -12,8 +12,7 @@
     "resolveJsonModule": true,
     "moduleResolution": "node",
     "allowJs": true,
-    "noImplicitAny": false,
-    "types": ["node"]
+    "noImplicitAny": false
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "prisma"]
