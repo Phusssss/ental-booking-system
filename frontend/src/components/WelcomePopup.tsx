@@ -90,7 +90,7 @@ const WelcomePopup: React.FC = () => {
               {!submitted ? (
                 <>
                   {/* Header with gradient */}
-                  <div className="bg-gradient-to-br from-primary-500 to-accent-500 p-8 text-white relative overflow-hidden">
+                  <div className="bg-gradient-to-br from-primary-500 to-primary-600 p-8 text-white relative overflow-hidden">
                     {/* Decorative circles */}
                     <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
                     <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
@@ -161,7 +161,7 @@ const WelcomePopup: React.FC = () => {
                         type="submit"
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="w-full bg-gradient-to-r from-primary-500 to-accent-500 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all"
+                        className="w-full bg-gradient-to-r from-primary-500 to-primary-600 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all"
                       >
                         Nhận ưu đãi ngay 🎁
                       </motion.button>

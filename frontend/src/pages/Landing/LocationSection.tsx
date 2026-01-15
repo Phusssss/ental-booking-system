@@ -208,7 +208,7 @@ const LocationSection: React.FC = () => {
             </div>
 
             {/* Social Links */}
-            <div className="bg-gradient-to-br from-primary-50 to-accent-50 rounded-2xl p-6">
+            <div className="bg-gradient-to-br from-primary-50 to-primary-100 rounded-2xl p-6">
               <h4 className="font-bold text-neutral-900 mb-4">Kết nối với chúng tôi</h4>
               <div className="flex space-x-3">
                 <motion.a

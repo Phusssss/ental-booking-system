@@ -157,7 +157,7 @@ const ServicesSection: React.FC = () => {
         >
           <a
             href="#booking"
-            className="inline-block bg-accent-500 hover:bg-accent-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-xl hover:scale-105 transition-all uppercase tracking-wide"
+            className="inline-block bg-primary-500 hover:bg-primary-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-xl hover:scale-105 transition-all uppercase tracking-wide"
           >
             Đặt lịch ngay
           </a>

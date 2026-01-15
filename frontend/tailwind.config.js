@@ -6,31 +6,32 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Aspen Dental inspired - Teal/Medical Blue
+        // Primary - Turquoise palette from Kigen.design
         primary: {
-          50: '#f0fdfa',
-          100: '#ccfbf1',
-          200: '#99f6e4',
-          300: '#5eead4',
-          400: '#2dd4bf',
-          500: '#14b8a6',
-          600: '#0d9488',
-          700: '#0f766e',
-          800: '#115e59',
-          900: '#134e4a',
+          50: '#b9fef0',
+          100: '#3df9df',
+          200: '#35dbc4',
+          300: '#2fc8b3',
+          400: '#24ad9b',
+          500: '#098a7b',
+          600: '#00685b',
+          700: '#004c42',
+          800: '#00332c',
+          900: '#001c19',
+          950: '#000f0c',
         },
-        // Accent - Warm orange for CTAs
+        // Accent - Deeper turquoise for contrast
         accent: {
-          50: '#fff7ed',
-          100: '#ffedd5',
-          200: '#fed7aa',
-          300: '#fdba74',
-          400: '#fb923c',
-          500: '#f97316',
-          600: '#ea580c',
-          700: '#c2410c',
-          800: '#9a3412',
-          900: '#7c2d12',
+          50: '#b9fef0',
+          100: '#3df9df',
+          200: '#35dbc4',
+          300: '#2fc8b3',
+          400: '#24ad9b',
+          500: '#00685b',
+          600: '#004c42',
+          700: '#00332c',
+          800: '#001c19',
+          900: '#000f0c',
         },
         neutral: {
           50: '#fafafa',

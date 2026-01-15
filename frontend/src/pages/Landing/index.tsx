@@ -4,6 +4,7 @@ import Footer from '../../components/Footer';
 import WelcomePopup from '../../components/WelcomePopup';
 import FloatingActions from '../../components/FloatingActions';
 import HeroSection from './HeroSection';
+import PromoBannerSection from './PromoBannerSection';
 import ServicesSection from './ServicesSection';
 import DoctorsSection from './DoctorsSection';
 import TestimonialsSection from './TestimonialsSection';
@@ -20,6 +21,7 @@ const LandingPage: React.FC = () => {
       <FloatingActions />
       <HeroSection />
       <TrustBadgesSection />
+      <PromoBannerSection />
       <ServicesSection />
       <DoctorsSection />
       <TestimonialsSection />

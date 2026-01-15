@@ -35,7 +35,7 @@ const FloatingActions: React.FC = () => {
         </svg>
       ),
       label: 'Đặt lịch',
-      color: 'from-primary-500 to-accent-500',
+      color: 'from-primary-500 to-primary-600',
       action: () => {
         const bookingSection = document.getElementById('booking');
         bookingSection?.scrollIntoView({ behavior: 'smooth' });
@@ -97,27 +97,17 @@ const FloatingActions: React.FC = () => {
         </AnimatePresence>
 
         {/* Toggle button */}
-        <motion.button
+        <button
           onClick={() => setIsExpanded(!isExpanded)}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-500 text-white rounded-full shadow-2xl flex items-center justify-center relative overflow-hidden"
+          className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 text-white rounded-full shadow-2xl flex items-center justify-center relative overflow-hidden hover:scale-110 active:scale-90 transition-transform"
         >
-          {/* Pulse animation */}
-          <motion.div
-            animate={{
-              scale: [1, 1.5, 1],
-              opacity: [0.5, 0, 0.5],
-            }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="absolute inset-0 bg-primary-400 rounded-full"
-          />
+          {/* Pulse animation - CSS only */}
+          <div className="absolute inset-0 bg-primary-400 rounded-full animate-ping opacity-50"></div>
 
           {/* Icon */}
-          <motion.div
-            animate={{ rotate: isExpanded ? 45 : 0 }}
-            transition={{ duration: 0.3 }}
-            className="relative z-10"
+          <div 
+            className="relative z-10 transition-transform duration-300"
+            style={{ transform: isExpanded ? 'rotate(45deg)' : 'rotate(0deg)' }}
           >
             {isExpanded ? (
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -128,8 +118,8 @@ const FloatingActions: React.FC = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
               </svg>
             )}
-          </motion.div>
-        </motion.button>
+          </div>
+        </button>
 
         {/* Tooltip */}
         {!isExpanded && (
@@ -146,29 +136,18 @@ const FloatingActions: React.FC = () => {
       </motion.div>
 
       {/* Quick call button (always visible) */}
-      <motion.a
+      <a
         href="tel:02812345678"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 1.2, type: "spring" }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        className="fixed bottom-6 left-6 z-40 w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-full shadow-2xl flex items-center justify-center"
+        className="fixed bottom-6 left-6 z-40 w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-90 transition-transform animate-fade-in"
+        style={{ animationDelay: '1.2s' }}
       >
-        {/* Pulse ring */}
-        <motion.div
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.7, 0, 0.7],
-          }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="absolute inset-0 bg-green-400 rounded-full"
-        />
+        {/* Pulse ring - CSS only */}
+        <div className="absolute inset-0 bg-green-400 rounded-full animate-ping opacity-70"></div>
         
         <svg className="w-7 h-7 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
         </svg>
-      </motion.a>
+      </a>
     </>
   );
 };

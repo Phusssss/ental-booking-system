@@ -204,7 +204,7 @@ const FAQSection: React.FC = () => {
                     <motion.div
                       animate={{ rotate: activeId === faq.id ? 90 : 0 }}
                       transition={{ duration: 0.3 }}
-                      className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-primary-100 to-accent-100 rounded-full flex items-center justify-center"
+                      className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-primary-100 to-primary-200 rounded-full flex items-center justify-center"
                     >
                       <svg
                         className="w-5 h-5 text-primary-600"
@@ -280,7 +280,7 @@ const FAQSection: React.FC = () => {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-accent-500 hover:bg-accent-600 text-white px-8 py-4 rounded-full font-bold shadow-lg hover:shadow-xl transition-all inline-flex items-center gap-2"
+                className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-4 rounded-full font-bold shadow-lg hover:shadow-xl transition-all inline-flex items-center gap-2"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 2C6.477 2 2 6.477 2 12c0 2.237.738 4.304 1.986 5.97L2.05 21.95l4.098-1.905C7.813 21.348 9.826 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/>

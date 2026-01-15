@@ -114,44 +114,28 @@ const TestimonialsSection: React.FC = () => {
         {/* Testimonials Carousel */}
         <div className="relative">
           <div className="grid md:grid-cols-3 gap-8">
-            <AnimatePresence mode="wait">
-              {visibleTestimonials.map((testimonial, index) => (
-                <motion.div
-                  key={testimonial.id}
-                  initial={{ opacity: 0, x: 100 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -100 }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.05, y: -10 }}
-                  className="relative group"
-                >
-                  {/* Glow effect */}
-                  <div className="absolute inset-0 bg-primary-500 rounded-2xl opacity-0 group-hover:opacity-5 transition-opacity" />
-                  
-                  <div className="relative bg-white rounded-2xl shadow-xl p-8 h-full border border-neutral-200 group-hover:border-primary-300 transition-all">
-                    {/* Quote icon */}
-                    <motion.div
-                      animate={{ rotate: [0, 5, -5, 0] }}
-                      transition={{ duration: 3, repeat: Infinity }}
-                      className="absolute top-4 right-4 text-6xl text-primary-100"
-                    >
-                      "
-                    </motion.div>
+            {visibleTestimonials.map((testimonial, index) => (
+              <motion.div
+                key={testimonial.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="relative group hover:scale-105 hover:-translate-y-2 transition-transform duration-200"
+              >
+                {/* Glow effect */}
+                <div className="absolute inset-0 bg-primary-500 rounded-2xl opacity-0 group-hover:opacity-5 transition-opacity" />
+                
+                <div className="relative bg-white rounded-2xl shadow-xl p-8 h-full border border-neutral-200 group-hover:border-primary-300 transition-all">
+                  <div className="absolute top-4 right-4 text-6xl text-primary-100 select-none pointer-events-none">
+                    "
+                  </div>
 
-                    {/* Rating with animation */}
-                    <div className="flex mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <motion.span
-                          key={i}
-                          initial={{ scale: 0, rotate: -180 }}
-                          animate={{ scale: 1, rotate: 0 }}
-                          transition={{ delay: i * 0.1, type: "spring" }}
-                          className="text-yellow-400 text-xl"
-                        >
-                          ⭐
-                        </motion.span>
-                      ))}
-                    </div>
+                  {/* Rating */}
+                  <div className="flex mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <span key={i} className="text-yellow-400 text-xl">⭐</span>
+                    ))}
+                  </div>
 
                     {/* Comment */}
                     <p className="text-gray-700 mb-6 italic text-lg leading-relaxed">
@@ -186,61 +170,50 @@ const TestimonialsSection: React.FC = () => {
                     </div>
 
                     {/* Verified badge */}
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.5, type: "spring" }}
-                      className="absolute -top-3 -left-3 bg-green-500 text-white rounded-full p-2 shadow-lg"
-                    >
+                    <div className="absolute -top-3 -left-3 bg-green-500 text-white rounded-full p-2 shadow-lg">
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
-                    </motion.div>
+                    </div>
                   </div>
                 </motion.div>
               ))}
-            </AnimatePresence>
           </div>
 
           {/* Navigation buttons */}
           <div className="flex justify-center items-center gap-4 mt-12">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+            <button
               onClick={prevSlide}
-              className="bg-white text-primary-600 p-4 rounded-full shadow-lg hover:shadow-xl transition-all"
+              className="bg-white text-primary-600 p-4 rounded-full shadow-lg hover:shadow-xl hover:scale-110 active:scale-90 transition-all"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-            </motion.button>
+            </button>
 
             {/* Dots indicator */}
             <div className="flex gap-2">
               {Array.from({ length: Math.ceil(testimonials.length / itemsPerPage) }).map((_, index) => (
-                <motion.button
+                <button
                   key={index}
-                  whileHover={{ scale: 1.2 }}
                   onClick={() => setCurrentIndex(index * itemsPerPage)}
-                  className={`w-3 h-3 rounded-full transition-all ${
+                  className={`h-3 rounded-full transition-all hover:scale-125 ${
                     Math.floor(currentIndex / itemsPerPage) === index
                       ? 'bg-primary-600 w-8'
-                      : 'bg-gray-300'
+                      : 'bg-gray-300 w-3'
                   }`}
                 />
               ))}
             </div>
 
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+            <button
               onClick={nextSlide}
-              className="bg-white text-primary-600 p-4 rounded-full shadow-lg hover:shadow-xl transition-all"
+              className="bg-white text-primary-600 p-4 rounded-full shadow-lg hover:shadow-xl hover:scale-110 active:scale-90 transition-all"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-            </motion.button>
+            </button>
           </div>
         </div>
 
